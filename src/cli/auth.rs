@@ -2,7 +2,7 @@ use anyhow::Result;
 use clap::Subcommand;
 
 use crate::api::client::ApiClient;
-use crate::config::Credentials;
+use crate::config::{Credentials, DEFAULT_API_URL};
 use crate::utils::output;
 use crate::utils::spinner;
 
@@ -13,7 +13,7 @@ pub enum AuthCommands {
         /// The API key to store
         key: String,
         /// API endpoint URL
-        #[arg(long, default_value = "http://localhost:8080")]
+        #[arg(long, default_value = DEFAULT_API_URL)]
         api_url: String,
     },
     /// Show current authenticated user and tenant

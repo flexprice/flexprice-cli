@@ -33,7 +33,7 @@ A beautiful terminal CLI for the [FlexPrice](https://flexprice.io) usage-based b
 ## Prerequisites
 
 - **Rust toolchain** (1.70+) — install via [rustup](https://rustup.rs)
-- A running **FlexPrice API** instance (default: `http://localhost:8080`)
+- Access to the **FlexPrice API** (default base URL: `https://api.cloud.flexprice.io`)
 
 ## Installation
 
@@ -61,24 +61,14 @@ cargo run -- <COMMAND>
 
 ## Authentication
 
-Before using any resource commands, you need to authenticate. The CLI supports two authentication methods:
+Before using most commands, configure an **API key**. The default API URL is `https://api.cloud.flexprice.io`.
 
-### Interactive login (email + password)
-
-```bash
-flexprice auth login
-# Optionally specify a custom API URL:
-flexprice auth login --api-url https://api.flexprice.io
-```
-
-You'll be prompted for your email and password. On success, a JWT token is saved locally.
-
-### API key (CI/CD & automation)
+### API key
 
 ```bash
 flexprice auth set-api-key <YOUR_API_KEY>
-# With a custom API URL:
-flexprice auth set-api-key <YOUR_API_KEY> --api-url https://api.flexprice.io
+# Override the API URL (optional):
+flexprice auth set-api-key <YOUR_API_KEY> --api-url https://api.cloud.flexprice.io
 ```
 
 The key is validated against the API before being stored.
@@ -99,8 +89,7 @@ flexprice auth logout   # Remove stored credentials
 
 | Command | Description |
 |---------|-------------|
-| `auth login` | Interactive login with email & password |
-| `auth set-api-key <KEY>` | Store an API key directly |
+| `auth set-api-key <KEY>` | Store an API key (default URL: cloud API) |
 | `auth whoami` | Show authenticated user info |
 | `auth status` | Show auth status & test connection |
 | `auth logout` | Remove stored credentials |
@@ -235,7 +224,7 @@ flexprice events ingest --json event.json
 flexprice config
 ```
 
-Displays the current configuration: API URL, masked API key, auth token status, tenant ID, user ID, environment ID, and credentials file path.
+Displays the current configuration: API URL, masked API key, environment ID, and credentials file path.
 
 ### Dashboard (TUI)
 
@@ -268,7 +257,7 @@ Credentials are resolved in the following priority order (highest → lowest):
 ### Environment variables
 
 ```bash
-export FLEXPRICE_API_URL=https://api.flexprice.io
+export FLEXPRICE_API_URL=https://api.cloud.flexprice.io
 export FLEXPRICE_API_KEY=fp_live_xxxxxxxxxxxx
 export FLEXPRICE_ENVIRONMENT_ID=env_prod
 ```
@@ -276,7 +265,7 @@ export FLEXPRICE_ENVIRONMENT_ID=env_prod
 Or use a `.env` file in your working directory:
 
 ```dotenv
-FLEXPRICE_API_URL=https://api.flexprice.io
+FLEXPRICE_API_URL=https://api.cloud.flexprice.io
 FLEXPRICE_API_KEY=fp_live_xxxxxxxxxxxx
 FLEXPRICE_ENVIRONMENT_ID=env_prod
 ```

@@ -3,7 +3,7 @@ use reqwest::{Client, Response, StatusCode};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
-use crate::config::Credentials;
+use crate::config::{Credentials, DEFAULT_API_URL};
 
 /// FlexPrice API client with automatic auth and error handling
 #[derive(Clone)]
@@ -26,7 +26,7 @@ struct ApiError {
 impl ApiClient {
     pub fn new(credentials: Credentials) -> Result<Self> {
         let base_url = if credentials.api_url.is_empty() {
-            "http://localhost:8080".to_string()
+            DEFAULT_API_URL.to_string()
         } else {
             credentials.api_url.trim_end_matches('/').to_string()
         };

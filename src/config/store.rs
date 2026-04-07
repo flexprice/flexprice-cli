@@ -2,7 +2,10 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+/// Default FlexPrice API base URL when none is configured.
+pub const DEFAULT_API_URL: &str = "https://api.cloud.flexprice.io";
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Credentials {
     #[serde(default)]
     pub api_url: String,
@@ -10,6 +13,16 @@ pub struct Credentials {
     pub api_key: Option<String>,
     #[serde(default)]
     pub environment_id: Option<String>,
+}
+
+impl Default for Credentials {
+    fn default() -> Self {
+        Self {
+            api_url: DEFAULT_API_URL.to_string(),
+            api_key: None,
+            environment_id: None,
+        }
+    }
 }
 
 impl Credentials {
