@@ -1,20 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-// ─── Auth ───────────────────────────────────────────────────────────
-
-#[derive(Debug, Serialize)]
-pub struct LoginRequest {
-    pub email: String,
-    pub password: String,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct AuthResponse {
-    pub token: String,
-    pub user_id: String,
-    pub tenant_id: String,
-}
-
 // ─── Generic List Wrapper ───────────────────────────────────────────
 
 #[derive(Debug, Deserialize)]

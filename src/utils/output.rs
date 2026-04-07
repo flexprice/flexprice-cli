@@ -80,16 +80,3 @@ pub fn status_badge(status: &str) -> String {
         _ => status.to_string(),
     }
 }
-
-/// The FlexPrice ASCII art banner
-pub fn print_banner() {
-    let banner = r#"
-    ╔═══════════════════════════════════════════╗
-    ║                                           ║
-    ║   ⚡ FlexPrice CLI                        ║
-    ║   Usage-based billing, made simple.       ║
-    ║                                           ║
-    ╚═══════════════════════════════════════════╝
-    "#;
-    println!("{}", banner.cyan());
-}

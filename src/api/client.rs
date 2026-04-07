@@ -76,7 +76,7 @@ impl ApiClient {
                 }
             } else {
                 match status {
-                    StatusCode::UNAUTHORIZED => "Authentication failed. Run `flexprice auth login` or check your API key.".to_string(),
+                    StatusCode::UNAUTHORIZED => "Authentication failed. Run `flexprice auth set-api-key <KEY>` or check FLEXPRICE_API_KEY.".to_string(),
                     StatusCode::FORBIDDEN => "Permission denied. Your credentials may not have access to this resource.".to_string(),
                     StatusCode::NOT_FOUND => "Resource not found. Verify the ID is correct.".to_string(),
                     _ => format!("{}: {}", status, body_text),

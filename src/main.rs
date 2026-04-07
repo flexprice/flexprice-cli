@@ -31,7 +31,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Authenticate with FlexPrice (login, API key, status)
+    /// Authenticate with FlexPrice (API key)
     Auth {
         #[command(subcommand)]
         command: cli::auth::AuthCommands,
@@ -138,9 +138,6 @@ fn handle_config() -> anyhow::Result<()> {
     println!();
     utils::output::info(&format!("API URL:     {}", if creds.api_url.is_empty() { "(not set)" } else { &creds.api_url }));
     utils::output::info(&format!("API Key:     {}", creds.masked_api_key()));
-    utils::output::info(&format!("Auth Token:  {}", if creds.auth_token.is_some() { "(set)" } else { "(not set)" }));
-    utils::output::info(&format!("Tenant ID:   {}", creds.tenant_id.as_deref().unwrap_or("(not set)")));
-    utils::output::info(&format!("User ID:     {}", creds.user_id.as_deref().unwrap_or("(not set)")));
     utils::output::info(&format!("Env ID:      {}", creds.environment_id.as_deref().unwrap_or("(not set)")));
     utils::output::info(&format!("Config path: {}", config::Credentials::credentials_path().display()));
     println!();

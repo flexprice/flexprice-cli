@@ -267,10 +267,7 @@ fn render_header(f: &mut Frame, area: Rect, app: &App) {
         ]),
         Line::from(vec![
             Span::styled("  Auth: ", Style::default().fg(Theme::TEXT_DIM)),
-            Span::styled(
-                if app.creds.api_key.is_some() { "API Key" } else { "JWT" },
-                Style::default().fg(Theme::INFO)
-            ),
+            Span::styled("API Key", Style::default().fg(Theme::INFO)),
         ]),
     ];
     let info = Paragraph::new(info_lines)

@@ -9,12 +9,6 @@ pub struct Credentials {
     #[serde(default)]
     pub api_key: Option<String>,
     #[serde(default)]
-    pub auth_token: Option<String>,
-    #[serde(default)]
-    pub tenant_id: Option<String>,
-    #[serde(default)]
-    pub user_id: Option<String>,
-    #[serde(default)]
     pub environment_id: Option<String>,
 }
 
@@ -92,20 +86,16 @@ impl Credentials {
         Ok(())
     }
 
-    /// Check if the user is authenticated (has API key or auth token)
+    /// Check if the user has an API key configured
     pub fn is_authenticated(&self) -> bool {
-        self.api_key.is_some() || self.auth_token.is_some()
+        self.api_key.is_some()
     }
 
     /// Returns the auth header name and value
     pub fn get_auth_header(&self) -> Option<(&'static str, String)> {
-        if let Some(ref key) = self.api_key {
-            Some(("x-api-key", key.clone()))
-        } else if let Some(ref token) = self.auth_token {
-            Some(("Authorization", format!("Bearer {}", token)))
-        } else {
-            None
-        }
+        self.api_key
+            .as_ref()
+            .map(|key| ("x-api-key", key.clone()))
     }
 
     /// Mask the API key for display
