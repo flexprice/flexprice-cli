@@ -1,6 +1,6 @@
 # ⚡ FlexPrice CLI
 
-A beautiful terminal CLI for the [FlexPrice](https://flexprice.io) usage-based billing platform. Manage customers, plans, subscriptions, invoices, meters, events, wallets, features, and entitlements — all from your terminal. Includes an interactive TUI dashboard built with [Ratatui](https://ratatui.rs).
+A beautiful terminal CLI for the [FlexPrice](https://flexprice.io) usage-based billing platform. Manage customers, plans, subscriptions, invoices, meters, events, wallets, features, and entitlements — all from your terminal. Includes an interactive TUI dashboard built with [Ink](https://github.com/vadimdemedes/ink).
 
 ---
 
@@ -32,30 +32,47 @@ A beautiful terminal CLI for the [FlexPrice](https://flexprice.io) usage-based b
 
 ## Prerequisites
 
-- **Rust toolchain** (1.70+) — install via [rustup](https://rustup.rs)
+- **Node.js 20+** — [nodejs.org](https://nodejs.org) or your version manager
 - Access to the **FlexPrice API** (default base URL: `https://api.cloud.flexprice.io`)
 
 ## Installation
 
-### Build from source
+### From this repository
 
 ```bash
 git clone https://github.com/flexprice/flexprice-cli.git
-cd flexprice-cli
-cargo build --release
+cd flexprice-cli/npm
+npm install
+npm run build
 ```
 
-The binary will be at `target/release/flexprice`. You can copy it to a directory in your `$PATH`:
+Run the CLI:
 
 ```bash
-cp target/release/flexprice /usr/local/bin/
+node dist/cli-entry.js --help
 ```
 
-### Run directly with Cargo
+Link globally from the `npm/` directory:
 
 ```bash
-cargo run -- <COMMAND>
+cd flexprice-cli/npm
+npm link
+flexprice --help
 ```
+
+Or install the folder as a global package:
+
+```bash
+npm install -g ./npm
+```
+
+### After publishing to npm
+
+```bash
+npm install -g flexprice-cli
+```
+
+(See [npm/README.md](npm/README.md) for publishing notes.)
 
 ---
 
@@ -232,12 +249,12 @@ Displays the current configuration: API URL, masked API key, environment ID, and
 flexprice dashboard
 ```
 
-Launches an interactive terminal dashboard powered by [Ratatui](https://ratatui.rs). Navigate between panels showing customers, subscriptions, invoices, and more using keyboard controls.
+Launches an interactive terminal dashboard powered by [Ink](https://github.com/vadimdemedes/ink). Navigate between panels showing customers, plans, subscriptions, invoices, and more using keyboard controls.
 
 | Key | Action |
 |-----|--------|
-| `Tab` / `Shift+Tab` | Switch between panels |
-| `↑` / `↓` | Navigate lists |
+| `Tab` / `Shift+Tab`, `l` / `h` | Switch between resource tabs |
+| `↑` / `↓`, `j` / `k` | Navigate lists |
 | `r` | Refresh data |
 | `q` / `Esc` | Quit |
 
@@ -300,32 +317,27 @@ flexprice invoices get inv_abc123 --json
 
 ```
 flexprice-cli/
-├── Cargo.toml              # Dependencies & build config
-├── src/
-│   ├── main.rs             # CLI entry point & command routing
-│   ├── api/
-│   │   ├── client.rs       # HTTP client (reqwest-based)
-│   │   └── models.rs       # API request/response types
-│   ├── cli/
-│   │   ├── auth.rs         # Authentication commands
-│   │   ├── customers.rs    # Customer management
-│   │   ├── plans.rs        # Plan management
-│   │   ├── subscriptions.rs# Subscription management
-│   │   ├── invoices.rs     # Invoice management
-│   │   ├── meters.rs       # Meter management
-│   │   ├── events.rs       # Event ingestion & queries
-│   │   ├── wallets.rs      # Wallet & credit management
-│   │   ├── features.rs     # Feature management
-│   │   └── entitlements.rs # Entitlement management
-│   ├── config/
-│   │   └── store.rs        # Credential storage & resolution
-│   ├── tui/
-│   │   ├── dashboard.rs    # Interactive TUI dashboard
-│   │   └── theme.rs        # TUI color theme
-│   └── utils/
-│       ├── output.rs       # Table/JSON formatting & colored output
-│       └── spinner.rs      # Loading spinners
-└── target/                 # Build output (gitignored)
+├── README.md
+└── npm/                    # Node.js package (TypeScript)
+    ├── package.json
+    ├── tsconfig.json
+    ├── tsup.config.ts
+    ├── src/
+    │   ├── cli-entry.ts    # Process entry (dotenv + run)
+    │   ├── main.ts         # Commander program & routing
+    │   ├── api/
+    │   │   ├── client.ts   # HTTP client (fetch)
+    │   │   └── models.ts   # API types
+    │   ├── cli/            # Command handlers (auth, customers, …)
+    │   ├── config/
+    │   │   └── store.ts    # Credentials file & merge order
+    │   ├── tui/
+    │   │   ├── dashboard.tsx
+    │   │   └── theme.ts
+    │   └── utils/
+    │       ├── output.ts
+    │       └── spinner.ts
+    └── dist/               # Build output (after `npm run build`)
 ```
 
 ---
